@@ -98,7 +98,7 @@ The site includes:
 - `sitemap.xml`
 - JSON-LD site/person metadata
 
-Set these environment variables in Cloudflare Pages:
+Set these GitHub Actions variables before deployment:
 
 - `PUBLIC_SITE_URL`: canonical site URL, `https://tadesseangaw.com`
 - `PUBLIC_GA_MEASUREMENT_ID`: Google Analytics measurement ID, for example `G-XXXXXXXXXX`
