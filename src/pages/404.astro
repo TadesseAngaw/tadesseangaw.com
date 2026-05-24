@@ -1,0 +1,36 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+	title="Page not found"
+	description="The requested page could not be found on Tadesse Angaw's personal engineering site."
+>
+	<section class="py-10" aria-labelledby="not-found-heading">
+		<p class="font-label mb-5 text-sm uppercase tracking-widest text-primary">404</p>
+		<h1
+			id="not-found-heading"
+			class="font-headline mb-6 max-w-2xl text-[3.5rem] font-extrabold leading-[1.05] tracking-tight text-on-surface"
+		>
+			This page is not available.
+		</h1>
+		<p class="mb-10 max-w-2xl text-2xl leading-relaxed text-on-surface-variant">
+			The link may be old, the post may have moved, or the page may not exist. You can return to the
+			main site and continue from there.
+		</p>
+		<div class="flex flex-wrap gap-4">
+			<a
+				href="/"
+				class="font-label inline-flex border border-primary bg-primary px-5 py-3 text-sm font-semibold uppercase tracking-widest text-on-primary transition-opacity hover:opacity-85"
+			>
+				Home
+			</a>
+			<a
+				href="/blog"
+				class="font-label inline-flex border border-outline-variant px-5 py-3 text-sm font-semibold uppercase tracking-widest text-on-surface transition-colors hover:border-primary hover:text-primary"
+			>
+				Blog
+			</a>
+		</div>
+	</section>
+</BaseLayout>

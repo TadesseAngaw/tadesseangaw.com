@@ -1,0 +1,493 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
+import jesusFilmAppImage from "../../assets/portfolio/jesus-film-app.jpg";
+import medaShiLiveTestImage from "../../assets/portfolio/meda-shi-live-test.jpg";
+import medaSuperAppImage from "../../assets/portfolio/meda-super-app.webp";
+import qenaDigitalLendingImage from "../../assets/portfolio/qena-digital-lending.png";
+import yetaleAppMarketingImage from "../../assets/portfolio/yetale-app-marketing.jpg";
+
+const headline = "Selected engineering work.";
+
+const projects = [
+	{
+		id: "white-label-lending-platform",
+		title: "Qena Digital Lending",
+		type: "Fintech platform",
+		image: qenaDigitalLendingImage,
+		imageAlt: "Qena digital lending product showing loan selection and loan offer flows.",
+		summary:
+			"Kifiya Financial Technology's Qena Digital Lending platform: Ethiopia's first, configurable multi-bank lending infrastructure powering",
+		productLinks: [
+			{
+				label: "Michu",
+				href: "https://play.google.com/store/apps/details?id=com.kifiya.digital.lending",
+			},
+			{ label: "Abol", href: "https://play.google.com/store/apps/details?id=com.qena.abol" },
+			{ label: "Efoyta", href: "https://play.google.com/store/apps/details?id=com.qena.efoyta" },
+			{
+				label: "Lewedaje",
+				href: "https://play.google.com/store/apps/details?id=com.amharabank.lewedaje",
+			},
+			{
+				label: "Malefiya",
+				href: "https://play.google.com/store/apps/details?id=com.qena.malefiya",
+			},
+		],
+		impact: ["700K+ borrowers", "70B+ ETB disbursed", "5 banks", "~20 microservices"],
+		role: "Started as an engineer on the platform and grew into leading the full engineering team, owning design, development, production support, expansion, and long-term maintenance.",
+		challenge:
+			"Financial institutions needed to launch uncollateralized digital lending products quickly while still keeping bank-specific branding, policy, integrations, risk controls, and operational workflows.",
+		approach: [
+			"Designed the platform as reusable Qena lending infrastructure with bank-specific product configuration for Michu, Abol, Efoyta, Lewedaje, and Malefiya.",
+			"Led cross-functional backend, mobile, and platform delivery across engineering design, implementation, release support, and production operations.",
+			"Built and operated microservices for loan application, eligibility, offers, disbursement, repayment, reconciliation, partner integrations, and decisioning workflows.",
+			"Used event-driven processing with Kafka and RabbitMQ for asynchronous financial workflows and operational resilience.",
+			"Supported the expansion from one bank deployment into multiple bank-branded products while maintaining a shared core platform.",
+		],
+		outcome:
+			"Qena became a multi-bank digital lending platform supporting Ethiopia's uncollateralized MSME credit expansion, with products such as Michu helping customers access instant collateral-free working capital.",
+		stack: [
+			"Spring Boot",
+			"Microservices",
+			"Kafka",
+			"RabbitMQ",
+			"PostgreSQL",
+			"Banking integrations",
+			"FastAPI",
+			"MongoDB",
+			"Metabase",
+		],
+		links: [
+			{ label: "Qena", href: "https://qena.ai/" },
+			{
+				label: "Digital Frontiers",
+				href: "https://digitalfrontiersinstitute.org/ethiopias-uncollateralised-digital-credit-revolution/",
+			},
+		],
+	},
+	{
+		id: "super-app-platform",
+		title: "Meda Chat super app",
+		type: "Consumer platform",
+		image: medaSuperAppImage,
+		imageAlt: "Meda super app showing chat, banking, and commerce product screens.",
+		summary:
+			"A cross-platform Ethiopian super app combining secure messaging, mobile banking, mini-apps, and commerce in one product experience.",
+		productLinks: null,
+		impact: ["Instant messaging", "2017-2022", "200K+ users", "Mini-app SDK"],
+		role: "Worked mainly on the Android user app and the mini-app platform, including a React Native based SDK that allowed other developers to build mini-apps inside Meda.",
+		challenge:
+			"Users had to move between separate tools for chat, payments, bills, ordering, and daily services, creating a fragmented digital experience with weak financial context inside conversations.",
+		approach: [
+			"Built and evolved the Android user application for Meda's chat, service, and consumer workflows.",
+			"Created a mini-app platform on top of React Native so services could run inside the Meda app without rebuilding the core client for every feature.",
+			"Packaged the mini-app layer as a developer SDK, giving other developers a path to create and integrate mini-apps into the platform.",
+			"Worked with messaging, commerce, and financial-service flows where mini-apps needed to feel native inside the broader super-app experience.",
+			"Collaborated across platform and backend boundaries as the product grew from an early app into a broader chat, banking, and commerce ecosystem.",
+		],
+		outcome:
+			"Meda unified social, financial, and lifestyle services into a single app experience, while the mini-app platform created a foundation for adding services through developer-built extensions.",
+		stack: ["Android", "React Native", "Mini-app SDK", "Mobile banking", "Messaging", "Commerce"],
+		links: [
+			{
+				label: "Case study",
+				href: "https://360ground.com/project-case-study/meda-the-ethiopian-super-app-for-chat-banking-and-commerce/",
+			},
+		],
+	},
+	{
+		id: "meda-shi-live-game",
+		title: "Meda Shi live game",
+		type: "Live game platform",
+		image: medaShiLiveTestImage,
+		imageAlt: "Fana TV studio control room during a Meda Shi live game test broadcast.",
+		summary:
+			"A live mobile trivia game built inside the Meda ecosystem, letting tens of thousands of players participate at the same time during a TV game show broadcast on Fana TV.",
+		productLinks: null,
+		impact: [
+			"Broadcast-scale traffic",
+			"Tens of thousands of live players",
+			"Live on Fana TV",
+			"Real-time trivia",
+		],
+		role: "Created the project and led the technical scaling work, taking it from a Meda Chat feature into a live game platform capable of handling major concurrent traffic during televised game shows.",
+		challenge:
+			"The product had to synchronize a live TV-hosted trivia experience with mobile app answers from a very large audience, where traffic spiked sharply during each question window.",
+		approach: [
+			"Built the mobile game experience with React Native as part of the Meda ecosystem.",
+			"Designed the real-time answer flow so players could participate from the app while the host and game state were shown on television.",
+			"Scaled the backend using Google Cloud and Firebase to handle live game-show traffic and sudden concurrent connection spikes.",
+			"Worked through real-time database and fan-out constraints as the product gained popularity and reached tens of thousands of players in a single show.",
+			"Focused the architecture around low-latency participation, operational monitoring, and fast recovery during live broadcast windows.",
+		],
+		outcome:
+			"Meda Shi became a high-pressure technical proving ground for real-time mobile participation at TV scale, validating the ability to support large concurrent audiences during live Ethiopian game shows.",
+		stack: [
+			"React Native",
+			"Google Cloud",
+			"Firebase",
+			"Real-time systems",
+			"Mobile gaming",
+			"Live broadcast",
+		],
+		links: [
+			{ label: "360Ground", href: "https://360ground.com/client/medashi/" },
+			{ label: "Ethiopian Reporter", href: "https://www.thereporterethiopia.com/7368/" },
+		],
+	},
+	{
+		id: "jesus-film-project",
+		title: "Jesus Film Project",
+		type: "Remote mobile contribution",
+		image: jesusFilmAppImage,
+		imageAlt: "People using the Jesus Film mobile app on a phone.",
+		summary:
+			"Remote Android work for a global media app, helping modernize the codebase and improve offline video sharing for markets where data access is expensive or limited.",
+		productLinks: null,
+		impact: [
+			"Remote project",
+			"Modern Android architecture",
+			"Secure P2P video sharing",
+			"Africa and Asia access constraints",
+		],
+		role: "Contributed remotely to the Jesus Film Project Android app, helping the team migrate toward modern Android architecture, stabilize the application, and build secure peer-to-peer video sharing.",
+		challenge:
+			"In many African and Asian markets, mobile data cost and access can limit video distribution, so the app needed easier ways for people to share media without depending only on internet downloads.",
+		approach: [
+			"Helped migrate the Android project toward a more modern, maintainable architecture.",
+			"Built secure peer-to-peer video sharing so people could share content directly where data access was limited or expensive.",
+			"Stayed with the team to resolve bugs, improve stability, and help the Android project stand on a stronger foundation.",
+			"Worked remotely with the product and engineering team across existing app constraints instead of rebuilding the application from scratch.",
+			"Focused on reliability, maintainability, and making media access easier in low-connectivity contexts.",
+		],
+		outcome:
+			"The work improved the Android app's technical foundation and helped make video distribution easier in markets where connectivity and data cost are real barriers.",
+		stack: [
+			"Android",
+			"Kotlin",
+			"Modern Android architecture",
+			"P2P sharing",
+			"Offline media",
+			"Mobile stability",
+		],
+		links: [
+			{
+				label: "Play Store",
+				href: "https://play.google.com/store/apps/details?id=com.jesusfilmmedia.android.jesusfilm&hl=en_US",
+			},
+		],
+	},
+	{
+		id: "yetale-crowdsource-ecommerce",
+		title: "YetAle",
+		type: "Crowdsource ecommerce",
+		image: yetaleAppMarketingImage,
+		imageAlt:
+			"YetAle marketing image showing the Android ecommerce app and multiple product categories.",
+		summary:
+			"A crowdsource ecommerce platform for buying and selling across multiple product categories, supported by a consumer mobile app and an operations portal.",
+		productLinks: null,
+		impact: [
+			"Multi-category marketplace",
+			"Built around 2021",
+			"Consumer mobile app",
+			"Operations monitoring",
+		],
+		role: "Built the consumer Android app and supporting platform pieces for a multi-category marketplace, with operational tooling for monitoring marketplace activity.",
+		challenge:
+			"The platform needed to support a broad set of product categories while giving operators enough visibility to monitor listings, activity, and marketplace operations.",
+		approach: [
+			"Developed the consumer-facing Android application in Kotlin for browsing and interacting with multiple ecommerce product categories.",
+			"Built a React-based operations portal for monitoring and managing platform activity.",
+			"Used Google Cloud and Firebase as the core backend foundation for data, authentication, real-time updates, and operational workflows.",
+			"Structured the product experience around crowdsource marketplace participation rather than a single centrally managed catalog.",
+			"Kept the architecture lightweight enough for fast iteration while still supporting operational oversight.",
+		],
+		outcome:
+			"YetAle delivered a working multi-category ecommerce marketplace with a mobile consumer experience and an operations layer for day-to-day monitoring.",
+		stack: ["Kotlin", "Android", "React", "Google Cloud", "Firebase", "Ecommerce"],
+		links: [
+			{
+				label: "Play Store",
+				href: "https://play.google.com/store/apps/details?id=com.inmp.yetale",
+			},
+		],
+	},
+];
+---
+
+<BaseLayout title="Portfolio" description={headline}>
+	<header class="mb-16">
+		<p class="font-label mb-4 text-sm uppercase tracking-widest text-on-surface-variant">
+			Portfolio
+		</p>
+		<h1
+			class="font-headline text-[3.5rem] font-extrabold leading-none tracking-tight text-on-surface"
+		>
+			{headline}
+		</h1>
+		<p class="mt-8 max-w-[680px] font-body text-xl leading-relaxed text-on-surface-variant">
+			Selected systems I have helped design, build, scale, and operate.
+		</p>
+	</header>
+
+	<section class="space-y-20" aria-labelledby="projects-heading">
+		<h2 id="projects-heading" class="sr-only">Projects</h2>
+		{
+			projects.map((project, index) => (
+				<article class="project-card overflow-hidden border border-outline-variant/20 bg-background">
+					<Image
+						src={project.image}
+						alt={project.imageAlt}
+						widths={[640, 800, 960, 1200, 1600]}
+						sizes="(min-width: 848px) 800px, calc(100vw - 48px)"
+						class="aspect-[16/9] w-full object-cover"
+						loading={index === 0 ? "eager" : "lazy"}
+					/>
+					<div class="p-6 sm:p-8">
+						<div class="mb-5 flex flex-wrap items-center gap-3">
+							<span class="font-label text-sm uppercase tracking-widest text-on-surface-variant">
+								{project.type}
+							</span>
+							<span class="h-px w-8 bg-outline-variant/40" aria-hidden="true" />
+							<span class="font-label text-sm text-on-surface-variant">{project.impact[0]}</span>
+						</div>
+						<h3 class="font-headline text-3xl font-bold tracking-tight text-on-surface">
+							{project.title}
+						</h3>
+						<p class="mt-4 max-w-prose font-body text-xl leading-relaxed text-on-surface-variant">
+							{project.summary}
+							{project.productLinks ? (
+								<>
+									{" "}
+									{project.productLinks.map((product, productIndex) => (
+										<>
+											<a
+												class="text-primary underline-offset-4 hover:underline"
+												href={product.href}
+												target="_blank"
+												rel="noreferrer"
+											>
+												{product.label}
+											</a>
+											{productIndex < project.productLinks.length - 2
+												? ", "
+												: productIndex === project.productLinks.length - 2
+													? ", and "
+													: "."}
+										</>
+									))}
+								</>
+							) : null}
+						</p>
+						<div class="mt-6 grid gap-3 sm:grid-cols-2">
+							{project.impact.map((item) => (
+								<div class="border-t border-outline-variant/20 pt-3 font-label text-sm text-on-surface">
+									{item}
+								</div>
+							))}
+						</div>
+						<div class="mt-7 flex flex-wrap gap-3">
+							<button
+								class="project-open border border-primary px-4 py-2 font-label text-sm uppercase tracking-widest text-primary transition-colors hover:bg-primary hover:text-on-primary"
+								type="button"
+								data-project-open={project.id}
+							>
+								View details
+							</button>
+							{project.links?.map((link) => (
+								<a
+									href={link.href}
+									target="_blank"
+									rel="noreferrer"
+									class="inline-flex items-center gap-2 border border-outline-variant px-4 py-2 font-label text-sm uppercase tracking-widest text-on-surface transition-colors hover:border-primary hover:text-primary"
+								>
+									<span>{link.label}</span>
+									<span aria-hidden="true">↗</span>
+								</a>
+							))}
+						</div>
+					</div>
+				</article>
+			))
+		}
+	</section>
+
+	{
+		projects.map((project) => (
+			<dialog
+				id={`project-${project.id}`}
+				class="project-dialog max-h-[90vh] w-[min(920px,calc(100vw-2rem))] overflow-y-auto border border-outline-variant/30 bg-background p-0 text-on-surface shadow-2xl"
+				aria-labelledby={`project-${project.id}-title`}
+			>
+				<div class="sticky top-0 z-10 flex items-center justify-between border-b border-outline-variant/20 bg-background/95 px-5 py-4 backdrop-blur">
+					<p class="font-label text-sm uppercase tracking-widest text-on-surface-variant">
+						{project.type}
+					</p>
+					<button
+						type="button"
+						class="project-close h-9 w-9 border border-outline-variant/40 font-label text-xl leading-none text-on-surface-variant hover:border-primary hover:text-primary"
+						data-project-close
+						aria-label="Close project details"
+					>
+						×
+					</button>
+				</div>
+				<Image
+					src={project.image}
+					alt={project.imageAlt}
+					widths={[640, 800, 960, 1200, 1600]}
+					sizes="(min-width: 952px) 920px, calc(100vw - 32px)"
+					class="aspect-[16/9] w-full object-cover"
+					loading="lazy"
+				/>
+				<div class="p-6 sm:p-8">
+					<h2
+						id={`project-${project.id}-title`}
+						class="font-headline text-3xl font-bold tracking-tight text-on-surface"
+					>
+						{project.title}
+					</h2>
+					<p class="mt-4 font-body text-xl leading-relaxed text-on-surface-variant">
+						{project.summary}
+						{project.productLinks ? (
+							<>
+								{" "}
+								{project.productLinks.map((product, productIndex) => (
+									<>
+										<a
+											class="text-primary underline-offset-4 hover:underline"
+											href={product.href}
+											target="_blank"
+											rel="noreferrer"
+										>
+											{product.label}
+										</a>
+										{productIndex < project.productLinks.length - 2
+											? ", "
+											: productIndex === project.productLinks.length - 2
+												? ", and "
+												: "."}
+									</>
+								))}
+							</>
+						) : null}
+					</p>
+
+					<div class="mt-8 grid gap-6 md:grid-cols-2">
+						<section>
+							<h3 class="font-label mb-3 text-sm uppercase tracking-widest text-on-surface">
+								Role
+							</h3>
+							<p class="font-body text-lg leading-relaxed text-on-surface-variant">
+								{project.role}
+							</p>
+						</section>
+						<section>
+							<h3 class="font-label mb-3 text-sm uppercase tracking-widest text-on-surface">
+								Challenge
+							</h3>
+							<p class="font-body text-lg leading-relaxed text-on-surface-variant">
+								{project.challenge}
+							</p>
+						</section>
+					</div>
+
+					<section class="mt-8">
+						<h3 class="font-label mb-4 text-sm uppercase tracking-widest text-on-surface">
+							Approach
+						</h3>
+						<ul class="list-disc space-y-3 pl-5 font-body text-lg leading-relaxed text-on-surface-variant">
+							{project.approach.map((item) => (
+								<li>{item}</li>
+							))}
+						</ul>
+					</section>
+
+					<section class="mt-8">
+						<h3 class="font-label mb-3 text-sm uppercase tracking-widest text-on-surface">
+							Outcome
+						</h3>
+						<p class="font-body text-lg leading-relaxed text-on-surface-variant">
+							{project.outcome}
+						</p>
+					</section>
+
+					<section class="mt-8">
+						<h3 class="font-label mb-4 text-sm uppercase tracking-widest text-on-surface">Stack</h3>
+						<div class="flex flex-wrap gap-2">
+							{project.stack.map((item) => (
+								<span class="border border-outline-variant/40 px-3 py-1 font-label text-xs uppercase tracking-widest text-on-surface-variant">
+									{item}
+								</span>
+							))}
+						</div>
+					</section>
+
+					{project.links?.length ? (
+						<div class="mt-8 flex flex-wrap gap-3">
+							{project.links.map((link) => (
+								<a
+									href={link.href}
+									target="_blank"
+									rel="noreferrer"
+									class="font-label inline-flex items-center gap-2 border border-primary px-4 py-2 text-sm uppercase tracking-widest text-primary transition-colors hover:bg-primary hover:text-on-primary"
+								>
+									<span>{link.label}</span>
+									<span aria-hidden="true">↗</span>
+								</a>
+							))}
+						</div>
+					) : null}
+				</div>
+			</dialog>
+		))
+	}
+</BaseLayout>
+
+<script>
+	const openButtons = Array.from(
+		document.querySelectorAll<HTMLButtonElement>("[data-project-open]"),
+	);
+	const closeButtons = Array.from(
+		document.querySelectorAll<HTMLButtonElement>("[data-project-close]"),
+	);
+
+	for (const button of openButtons) {
+		button.addEventListener("click", () => {
+			const id = button.dataset.projectOpen;
+			const dialog = document.querySelector<HTMLDialogElement>(`#project-${id}`);
+			dialog?.showModal();
+		});
+	}
+
+	for (const button of closeButtons) {
+		button.addEventListener("click", () => {
+			button.closest("dialog")?.close();
+		});
+	}
+
+	for (const dialog of document.querySelectorAll<HTMLDialogElement>(".project-dialog")) {
+		dialog.addEventListener("click", (event) => {
+			if (event.target === dialog) dialog.close();
+		});
+	}
+</script>
+
+<style>
+	.project-card,
+	.project-dialog {
+		border-radius: 0;
+	}
+
+	.project-dialog {
+		margin: auto;
+		inset: 0;
+	}
+
+	.project-dialog::backdrop {
+		background: rgb(50 50 50 / 0.45);
+		backdrop-filter: blur(4px);
+	}
+</style>

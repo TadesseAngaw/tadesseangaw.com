@@ -1,0 +1,203 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const experience = [
+	{
+		company: "Kifiya Financial Technology",
+		location: "Addis Ababa, Ethiopia",
+		role: "Engineering Lead, Fintech Platform",
+		period: "Apr 2022 - Present",
+		highlights: [
+			"Led engineering strategy and execution for a multi-bank digital lending platform.",
+			"Delivered a configurable white-label platform powering multiple bank-branded products through shared core services and bank-specific deployments.",
+			"Scaled the platform to 700K+ borrowers and 70B+ in loan disbursements across five banks, with focus on availability and reliability.",
+			"Directed the design, development, and operation of about 20 microservices supporting financial workflows, integrations, and decisioning.",
+			"Designed event-driven architectures using Kafka and RabbitMQ for asynchronous processing.",
+			"Designed and supported financial transaction workflows with attention to data consistency, idempotent processing, and reconciliation across distributed services.",
+			"Led production incident response and stabilization for a high-traffic platform serving 1.5M+ users across multiple banks.",
+			"Led cross-functional backend, mobile, and platform engineering teams.",
+		],
+	},
+	{
+		company: "Addis Fortune",
+		location: "Addis Ababa, Ethiopia",
+		role: "Software Engineer / Technical Lead",
+		period: "Sep 2020 - Mar 2022",
+		highlights: [
+			"Led development of scalable digital platforms across mobile and backend systems.",
+			"Designed APIs and backend services supporting high-traffic mobile applications.",
+			"Contributed to system architecture and mentored engineering team members.",
+		],
+	},
+	{
+		company: "360 Ground",
+		location: "Addis Ababa, Ethiopia",
+		role: "Software Engineer / Technical Lead",
+		period: "Aug 2017 - Aug 2020",
+		highlights: [
+			"Led development of Meda, an early super-app platform combining real-time messaging, gaming, and financial integrations.",
+			"Designed and implemented a real-time chat system supporting large-scale user interaction.",
+			"Built a high-concurrency trivia platform for hundreds of thousands of concurrent users using Google Cloud infrastructure.",
+			"Engineered solutions for real-time database limits including high fan-out and concurrent updates.",
+			"Integrated Amole wallet into platform services for mini-app and core application transactions.",
+			"Developed backend APIs and services for scalable mobile applications.",
+		],
+	},
+	{
+		company: "Cru Org",
+		location: "Remote",
+		role: "Remote Engineering Contributor, Jesus Film Project Mobile Application",
+		period: "",
+		highlights: [
+			"Modernized mobile architecture and improved application stability and performance.",
+			"Introduced features improving content distribution and user experience.",
+		],
+	},
+];
+
+const competencies = [
+	"Financial systems and fintech platforms",
+	"Distributed systems and microservices",
+	"High availability and system reliability",
+	"Payment and banking integrations",
+	"Scalability and performance optimization",
+	"Engineering leadership and team management",
+	"Stakeholder collaboration",
+];
+
+const technicalExpertise = [
+	{ label: "Languages", value: "Kotlin, Java, Python, Node.js" },
+	{ label: "Frameworks", value: "Spring Boot, FastAPI" },
+	{ label: "Messaging", value: "Kafka, RabbitMQ" },
+	{ label: "Databases", value: "PostgreSQL, MongoDB" },
+	{ label: "Architecture", value: "Microservices, event-driven systems" },
+];
+---
+
+<BaseLayout
+	title="CV"
+	description="Professional CV for Tadesse Angaw, software engineering leader."
+>
+	<header class="mb-16">
+		<p class="font-label mb-4 text-sm uppercase tracking-widest text-on-surface-variant">
+			Curriculum vitae
+		</p>
+		<h1
+			class="font-headline text-[3.5rem] font-extrabold leading-[1.1] tracking-tighter text-on-surface"
+		>
+			Tadesse Angaw
+		</h1>
+		<p class="mt-6 max-w-[640px] font-body text-xl leading-relaxed text-on-surface-variant">
+			Engineering lead with deep experience building fintech platforms, distributed backend systems,
+			mobile products, and high-availability financial workflows.
+		</p>
+		<div class="mt-8 flex flex-wrap gap-x-6 gap-y-2 font-label text-sm text-on-surface-variant">
+			<span>Addis Ababa, Ethiopia</span>
+			<a
+				class="text-primary underline-offset-4 hover:underline"
+				href="mailto:tadesseangaw@gmail.com"
+			>
+				tadesseangaw@gmail.com
+			</a>
+			<a
+				class="text-primary underline-offset-4 hover:underline"
+				href="https://linkedin.com/in/TadesseAngaw"
+			>
+				linkedin.com/in/TadesseAngaw
+			</a>
+		</div>
+	</header>
+
+	<section class="mb-16" aria-labelledby="summary-heading">
+		<h2
+			id="summary-heading"
+			class="font-label mb-6 text-sm uppercase tracking-widest text-on-surface-variant"
+		>
+			Summary
+		</h2>
+		<p class="max-w-prose font-body text-xl leading-relaxed text-on-surface">
+			I lead engineering work across fintech, banking integrations, distributed systems, and mobile
+			platforms. My recent work includes scaling a multi-bank digital lending platform, guiding
+			microservice architecture, leading incident response, and supporting teams across backend,
+			mobile, and platform engineering.
+		</p>
+	</section>
+
+	<section class="mb-16" aria-labelledby="experience-heading">
+		<h2
+			id="experience-heading"
+			class="font-label mb-10 text-sm uppercase tracking-widest text-on-surface-variant"
+		>
+			Experience
+		</h2>
+		<div class="space-y-14">
+			{
+				experience.map((item) => (
+					<article>
+						<div class="mb-4 flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
+							<div>
+								<h3 class="font-headline text-2xl font-bold tracking-tight text-on-surface">
+									{item.company}
+								</h3>
+								<p class="font-label mt-1 text-sm text-on-surface-variant">{item.role}</p>
+							</div>
+							<div class="font-label text-sm text-on-surface-variant sm:text-right">
+								{item.period ? <p>{item.period}</p> : null}
+								<p>{item.location}</p>
+							</div>
+						</div>
+						<ul class="list-disc space-y-3 pl-5 font-body text-lg leading-relaxed text-on-surface-variant">
+							{item.highlights.map((highlight) => (
+								<li>{highlight}</li>
+							))}
+						</ul>
+					</article>
+				))
+			}
+		</div>
+	</section>
+
+	<section class="mb-16 grid gap-12 md:grid-cols-2" aria-label="Skills and technical expertise">
+		<div>
+			<h2 class="font-label mb-6 text-sm uppercase tracking-widest text-on-surface-variant">
+				Core Competencies
+			</h2>
+			<ul class="space-y-3 font-body text-lg leading-relaxed text-on-surface-variant">
+				{competencies.map((competency) => <li>{competency}</li>)}
+			</ul>
+		</div>
+		<div>
+			<h2 class="font-label mb-6 text-sm uppercase tracking-widest text-on-surface-variant">
+				Technical Expertise
+			</h2>
+			<dl class="space-y-4 font-body text-lg leading-relaxed">
+				{
+					technicalExpertise.map((item) => (
+						<div>
+							<dt class="font-label text-sm uppercase tracking-widest text-on-surface">
+								{item.label}
+							</dt>
+							<dd class="mt-1 text-on-surface-variant">{item.value}</dd>
+						</div>
+					))
+				}
+			</dl>
+		</div>
+	</section>
+
+	<section aria-labelledby="education-heading">
+		<h2
+			id="education-heading"
+			class="font-label mb-6 text-sm uppercase tracking-widest text-on-surface-variant"
+		>
+			Education
+		</h2>
+		<div class="font-body text-lg leading-relaxed">
+			<h3 class="font-headline text-2xl font-bold tracking-tight text-on-surface">
+				Assosa University
+			</h3>
+			<p class="mt-2 text-on-surface-variant">Bachelor's Degree, Computer Science - GPA 3.62</p>
+			<p class="font-label mt-2 text-sm text-on-surface-variant">Assosa, Ethiopia - July 2017</p>
+		</div>
+	</section>
+</BaseLayout>

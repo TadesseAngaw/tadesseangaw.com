@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Tadesse Angaw">
+	<rect width="128" height="128" rx="18" fill="#fcf9f8" />
+	<rect x="12" y="12" width="104" height="104" rx="10" fill="none" stroke="#323232" stroke-width="5" />
+	<text
+		x="64"
+		y="89"
+		fill="#0055d4"
+		font-family="Newsreader, Georgia, 'Times New Roman', serif"
+		font-size="82"
+		font-weight="500"
+		text-anchor="middle"
+	>
+		T
+	</text>
+</svg>

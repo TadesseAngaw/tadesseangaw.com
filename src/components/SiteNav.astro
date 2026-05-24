@@ -1,0 +1,250 @@
+---
+import { NAV, SITE_NAME } from "../lib/site";
+
+interface Props {
+	currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+function isActive(href: string): boolean {
+	if (href === "/blog") return currentPath === "/blog" || currentPath.startsWith("/blog/");
+	return currentPath === href || currentPath.startsWith(`${href}/`);
+}
+---
+
+<nav
+	class="sticky top-0 z-50 w-full border-b border-stone-200/15 bg-background/90 backdrop-blur-md"
+	aria-label="Primary"
+>
+	<div
+		class="mx-auto flex max-w-[800px] flex-col gap-3 px-6 py-4 sm:h-16 sm:flex-row sm:items-center sm:justify-between sm:py-0"
+	>
+		<a
+			href="/"
+			class="font-body text-lg italic text-on-surface transition-opacity hover:opacity-70"
+		>
+			{SITE_NAME}
+		</a>
+		<div class="flex flex-wrap items-center gap-x-4 gap-y-2 sm:gap-6">
+			{
+				NAV.map(({ href, label }) => (
+					<a
+						href={href}
+						class:list={[
+							"font-label text-xs uppercase tracking-widest transition-opacity hover:opacity-70 sm:text-sm",
+							isActive(href)
+								? "border-b border-primary pb-1 text-primary"
+								: "text-on-surface-variant hover:text-on-surface",
+						]}
+					>
+						{label}
+					</a>
+				))
+			}
+			<div class="relative">
+				<button
+					id="theme-menu-button"
+					type="button"
+					class="inline-flex h-9 w-9 items-center justify-center border border-outline-variant/40 bg-background text-on-surface-variant transition-colors hover:border-primary hover:text-primary"
+					aria-label="Open appearance menu"
+					aria-haspopup="menu"
+					aria-expanded="false"
+					title="Appearance"
+				>
+					<span id="theme-menu-icon" aria-hidden="true">
+						<svg
+							class="h-4 w-4"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.8"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<path d="M4 5h16v10H4z"></path>
+							<path d="M8 19h8"></path>
+							<path d="M12 15v4"></path>
+						</svg>
+					</span>
+				</button>
+				<div
+					id="theme-menu"
+					class="absolute right-0 top-11 z-50 hidden min-w-36 border border-outline-variant/30 bg-background p-1 shadow-xl"
+					role="menu"
+					aria-label="Appearance"
+				>
+					<button
+						type="button"
+						class="theme-menu-item flex w-full items-center gap-3 px-3 py-2 text-left font-label text-xs uppercase tracking-widest text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+						data-theme-option="system"
+						role="menuitemradio"
+						aria-checked="false"
+					>
+						<span aria-hidden="true">
+							<svg
+								class="h-4 w-4"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.8"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							>
+								<path d="M4 5h16v10H4z"></path>
+								<path d="M8 19h8"></path>
+								<path d="M12 15v4"></path>
+							</svg>
+						</span>
+						System
+					</button>
+					<button
+						type="button"
+						class="theme-menu-item flex w-full items-center gap-3 px-3 py-2 text-left font-label text-xs uppercase tracking-widest text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+						data-theme-option="light"
+						role="menuitemradio"
+						aria-checked="false"
+					>
+						<span aria-hidden="true">
+							<svg
+								class="h-4 w-4"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.8"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							>
+								<circle cx="12" cy="12" r="3.5"></circle>
+								<path d="M12 2.5v2"></path>
+								<path d="M12 19.5v2"></path>
+								<path d="m4.93 4.93 1.41 1.41"></path>
+								<path d="m17.66 17.66 1.41 1.41"></path>
+								<path d="M2.5 12h2"></path>
+								<path d="M19.5 12h2"></path>
+								<path d="m4.93 19.07 1.41-1.41"></path>
+								<path d="m17.66 6.34 1.41-1.41"></path>
+							</svg>
+						</span>
+						Light
+					</button>
+					<button
+						type="button"
+						class="theme-menu-item flex w-full items-center gap-3 px-3 py-2 text-left font-label text-xs uppercase tracking-widest text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface"
+						data-theme-option="dark"
+						role="menuitemradio"
+						aria-checked="false"
+					>
+						<span aria-hidden="true">
+							<svg
+								class="h-4 w-4"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.8"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							>
+								<path d="M20.5 14.5A8 8 0 0 1 9.5 3.5 7 7 0 1 0 20.5 14.5Z"></path>
+							</svg>
+						</span>
+						Dark
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</nav>
+
+<script>
+	const themeMenuButton = document.querySelector<HTMLButtonElement>("#theme-menu-button");
+	const themeMenu = document.querySelector<HTMLElement>("#theme-menu");
+	const themeMenuIcon = document.querySelector<HTMLElement>("#theme-menu-icon");
+	const themeMenuItems = Array.from(
+		document.querySelectorAll<HTMLButtonElement>("[data-theme-option]"),
+	);
+	const storageKey = "theme-preference";
+	const media = window.matchMedia("(prefers-color-scheme: dark)");
+	const themeIcons = {
+		system:
+			'<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v10H4z" /><path d="M8 19h8" /><path d="M12 15v4" /></svg>',
+		light:
+			'<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.5" /><path d="M12 2.5v2" /><path d="M12 19.5v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" /><path d="M2.5 12h2" /><path d="M19.5 12h2" /><path d="m4.93 19.07 1.41-1.41" /><path d="m17.66 6.34 1.41-1.41" /></svg>',
+		dark: '<svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.5A8 8 0 0 1 9.5 3.5 7 7 0 1 0 20.5 14.5Z" /></svg>',
+	} as const;
+
+	function getThemeChoice() {
+		const stored = localStorage.getItem(storageKey);
+		return stored === "light" || stored === "dark" ? stored : "system";
+	}
+
+	function hasSavedThemeChoice() {
+		const stored = localStorage.getItem(storageKey);
+		return stored === "light" || stored === "dark";
+	}
+
+	function setThemeMenuOpen(open: boolean) {
+		themeMenu?.classList.toggle("hidden", !open);
+		themeMenuButton?.setAttribute("aria-expanded", String(open));
+		if (open) {
+			const currentItem = themeMenuItems.find(
+				(item) => item.dataset.themeOption === getThemeChoice(),
+			);
+			currentItem?.focus();
+		}
+	}
+
+	function applyTheme(choice: string) {
+		const resolved = choice === "system" ? (media.matches ? "dark" : "light") : choice;
+		document.documentElement.dataset.theme = resolved;
+		document.documentElement.dataset.themeChoice = choice;
+		if (themeMenuButton) {
+			themeMenuButton.title = `Appearance: ${choice}`;
+			themeMenuButton.setAttribute("aria-label", `Open appearance menu. Current theme: ${choice}.`);
+		}
+		if (themeMenuIcon) themeMenuIcon.innerHTML = themeIcons[choice as keyof typeof themeIcons];
+		for (const item of themeMenuItems) {
+			const option = item.dataset.themeOption;
+			const isCurrent = option === choice;
+			item.setAttribute("aria-checked", String(isCurrent));
+			item.classList.toggle("text-primary", isCurrent);
+			item.classList.toggle("text-on-surface-variant", !isCurrent);
+		}
+	}
+
+	applyTheme(getThemeChoice());
+
+	themeMenuButton?.addEventListener("click", () => {
+		setThemeMenuOpen(themeMenu?.classList.contains("hidden") ?? true);
+	});
+
+	for (const item of themeMenuItems) {
+		item.addEventListener("click", () => {
+			const choice = item.dataset.themeOption;
+			if (!choice) return;
+			if (choice === "system") localStorage.removeItem(storageKey);
+			else localStorage.setItem(storageKey, choice);
+			applyTheme(choice);
+			setThemeMenuOpen(false);
+			themeMenuButton?.focus();
+		});
+	}
+
+	document.addEventListener("click", (event) => {
+		if (!themeMenu || !themeMenuButton) return;
+		if (themeMenu.classList.contains("hidden")) return;
+		const target = event.target as Node;
+		if (!themeMenu.contains(target) && !themeMenuButton.contains(target)) setThemeMenuOpen(false);
+	});
+
+	document.addEventListener("keydown", (event) => {
+		if (event.key === "Escape") {
+			setThemeMenuOpen(false);
+			themeMenuButton?.focus();
+		}
+	});
+
+	media.addEventListener("change", () => {
+		if (getThemeChoice() === "system") applyTheme("system");
+	});
+</script>

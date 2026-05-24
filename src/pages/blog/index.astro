@@ -1,0 +1,202 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { formatPostDate, getAllTags, getPublishedPosts } from "../../lib/blog";
+
+const posts = await getPublishedPosts();
+const tags = getAllTags(posts);
+---
+
+<BaseLayout
+	title="Blog"
+	description="Technical blog posts, architecture notes, and engineering leadership."
+>
+	<header class="mb-16 flex items-center justify-between gap-6">
+		<h1
+			class="font-headline text-[3.5rem] font-extrabold leading-[1.1] tracking-tighter text-on-surface"
+		>
+			Blog
+		</h1>
+		{
+			posts.length > 0 ? (
+				<button
+					id="blog-filter-toggle"
+					type="button"
+					class="inline-flex h-11 w-11 items-center justify-center border border-outline-variant/40 font-label text-on-surface-variant transition-colors hover:border-primary hover:text-primary"
+					aria-controls="blog-filters"
+					aria-expanded="false"
+					aria-label="Open blog search and filters"
+				>
+					<span aria-hidden="true" class="text-xl leading-none">
+						⌕
+					</span>
+				</button>
+			) : null
+		}
+	</header>
+
+	{
+		posts.length > 0 ? (
+			<section id="blog-filters" class="mb-16 hidden space-y-8" aria-label="Blog filters">
+				<div>
+					<label
+						class="font-label mb-3 block text-sm uppercase tracking-widest text-on-surface-variant"
+						for="blog-search"
+					>
+						Search
+					</label>
+					<input
+						id="blog-search"
+						type="search"
+						placeholder="Search blog posts..."
+						class="w-full border border-outline-variant/40 bg-background px-4 py-3 font-body text-lg text-on-surface outline-none transition-colors placeholder:text-on-surface-variant focus:border-primary"
+					/>
+				</div>
+				{tags.length > 0 ? (
+					<div>
+						<h2 class="font-label mb-4 text-sm uppercase tracking-widest text-on-surface-variant">
+							Tags
+						</h2>
+						<div class="flex flex-wrap gap-3">
+							<a
+								class="tag-filter border border-outline-variant/40 px-3 py-1 font-label text-xs uppercase tracking-widest text-on-surface-variant hover:border-primary hover:text-primary"
+								href="/blog"
+								data-tag-filter=""
+							>
+								All
+							</a>
+							{tags.map((tag) => (
+								<a
+									class="tag-filter border border-outline-variant/40 px-3 py-1 font-label text-xs uppercase tracking-widest text-on-surface-variant hover:border-primary hover:text-primary"
+									href={`/blog?tag=${encodeURIComponent(tag)}`}
+									data-tag-filter={tag}
+								>
+									{tag}
+								</a>
+							))}
+						</div>
+					</div>
+				) : null}
+				<p
+					id="blog-filter-status"
+					class="font-label text-sm text-on-surface-variant"
+					aria-live="polite"
+				/>
+			</section>
+		) : null
+	}
+
+	<section class="space-y-16" aria-label="Blog posts">
+		{
+			posts.length === 0 ? (
+				<p class="font-body text-lg text-on-surface-variant">
+					No published posts yet. Add Markdown files under{" "}
+					<code class="font-mono text-sm">src/content/blog</code>.
+				</p>
+			) : (
+				posts.map((post) => (
+					<article
+						class="blog-post space-y-3"
+						data-title={post.data.title.toLowerCase()}
+						data-excerpt={(post.data.excerpt ?? "").toLowerCase()}
+						data-tags={post.data.tags.join("|").toLowerCase()}
+					>
+						<h2 class="font-headline text-2xl font-bold tracking-tight">
+							<a class="text-on-surface hover:text-primary" href={`/blog/${post.data.slug}`}>
+								{post.data.title}
+							</a>
+						</h2>
+						<div class="flex flex-wrap items-center gap-x-4 gap-y-2 font-label text-sm text-on-surface-variant">
+							<time datetime={post.data.publishedAt.toISOString()}>
+								{formatPostDate(post.data.publishedAt)}
+							</time>
+							{post.data.tags.length > 0 ? (
+								<div class="flex flex-wrap gap-2">
+									{post.data.tags.map((tag) => (
+										<a
+											class="text-primary underline-offset-4 hover:underline"
+											href={`/blog?tag=${encodeURIComponent(tag)}`}
+										>
+											#{tag}
+										</a>
+									))}
+								</div>
+							) : null}
+						</div>
+						{post.data.excerpt ? (
+							<p class="max-w-prose font-body text-lg leading-relaxed text-on-surface-variant">
+								{post.data.excerpt}
+							</p>
+						) : null}
+					</article>
+				))
+			)
+		}
+		<p id="no-blog-results" class="hidden font-body text-lg text-on-surface-variant">
+			No blog posts match the current search and tag filters.
+		</p>
+	</section>
+</BaseLayout>
+
+<script>
+	const filterToggle = document.querySelector<HTMLButtonElement>("#blog-filter-toggle");
+	const filterPanel = document.querySelector<HTMLElement>("#blog-filters");
+	const searchInput = document.querySelector<HTMLInputElement>("#blog-search");
+	const posts = Array.from(document.querySelectorAll<HTMLElement>(".blog-post"));
+	const status = document.querySelector<HTMLElement>("#blog-filter-status");
+	const noResults = document.querySelector<HTMLElement>("#no-blog-results");
+	const tagLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>(".tag-filter"));
+
+	function setFilterPanelOpen(open: boolean) {
+		filterPanel?.classList.toggle("hidden", !open);
+		filterToggle?.setAttribute("aria-expanded", String(open));
+		filterToggle?.setAttribute(
+			"aria-label",
+			open ? "Close blog search and filters" : "Open blog search and filters",
+		);
+		if (open) searchInput?.focus();
+	}
+
+	function getSelectedTag() {
+		return new URLSearchParams(window.location.search).get("tag")?.toLowerCase() ?? "";
+	}
+
+	function applyFilters() {
+		const query = searchInput?.value.trim().toLowerCase() ?? "";
+		const selectedTag = getSelectedTag();
+		let visibleCount = 0;
+
+		for (const post of posts) {
+			const title = post.dataset.title ?? "";
+			const excerpt = post.dataset.excerpt ?? "";
+			const postTags = post.dataset.tags ?? "";
+			const matchesSearch =
+				!query || title.includes(query) || excerpt.includes(query) || postTags.includes(query);
+			const matchesTag = !selectedTag || postTags.split("|").includes(selectedTag);
+			const isVisible = matchesSearch && matchesTag;
+			post.classList.toggle("hidden", !isVisible);
+			if (isVisible) visibleCount += 1;
+		}
+
+		for (const link of tagLinks) {
+			const tag = link.dataset.tagFilter?.toLowerCase() ?? "";
+			const isActive = tag === selectedTag;
+			link.classList.toggle("border-primary", isActive);
+			link.classList.toggle("text-primary", isActive);
+			link.setAttribute("aria-current", isActive ? "true" : "false");
+		}
+
+		if (status) {
+			const tagText = selectedTag ? ` tagged #${selectedTag}` : "";
+			status.textContent = `${visibleCount} blog post${visibleCount === 1 ? "" : "s"}${tagText}`;
+		}
+		noResults?.classList.toggle("hidden", visibleCount !== 0);
+	}
+
+	filterToggle?.addEventListener("click", () => {
+		setFilterPanelOpen(filterPanel?.classList.contains("hidden") ?? true);
+	});
+	searchInput?.addEventListener("input", applyFilters);
+	window.addEventListener("popstate", applyFilters);
+	if (getSelectedTag()) setFilterPanelOpen(true);
+	applyFilters();
+</script>
