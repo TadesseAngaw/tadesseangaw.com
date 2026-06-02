@@ -2,7 +2,7 @@
 title: "Attacker Economics"
 slug: "attacker-economics"
 excerpt: "Modern security incidents are not only technical failures. They are also economic decisions made by attackers looking for leverage, scale, and return on effort."
-heroImage: "/images/blog/plant-growing-on-rock-crack.avif"
+heroImage: "/images/blog/plant-growing-on-rock-crack.jpg"
 heroImageAlt: "Plant emerging from a crack in a stone wall, symbolizing how small weaknesses can become opportunities."
 heroImageCreditName: "Zoshua Colah, Unsplash"
 heroImageSourceUrl: "https://unsplash.com/photos/a-plant-growing-out-of-a-crack-in-a-stone-wall-1-qwAp6eWQk"
