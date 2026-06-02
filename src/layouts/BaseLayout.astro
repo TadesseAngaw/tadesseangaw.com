@@ -17,17 +17,6 @@ const pageTitle = title === SITE_NAME ? title : `${title} · ${SITE_NAME}`;
 const currentPath = Astro.url.pathname;
 const canonicalUrl = new URL(currentPath, SITE_URL).toString();
 const imageUrl = image ? new URL(image, SITE_URL).toString() : undefined;
-const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
-const googleAnalyticsScript = gaMeasurementId
-	? `
-window.dataLayer = window.dataLayer || [];
-function gtag() {
-	window.dataLayer.push(arguments);
-}
-gtag("js", new Date());
-gtag("config", ${JSON.stringify(gaMeasurementId)});
-`
-	: undefined;
 const structuredData = {
 	"@context": "https://schema.org",
 	"@graph": [
@@ -81,14 +70,6 @@ const structuredData = {
 		{imageAlt ? <meta name="twitter:image:alt" content={imageAlt} /> : null}
 		<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		{
-			gaMeasurementId ? (
-				<>
-					<script async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`} />
-					<script is:inline set:html={googleAnalyticsScript} />
-				</>
-			) : null
-		}
 		<script is:inline>
 			(() => {
 				const storageKey = "theme-preference";

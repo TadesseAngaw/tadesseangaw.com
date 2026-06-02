@@ -87,7 +87,7 @@ Use `public/` for stable URL assets:
 - Open Graph images
 - Files that external crawlers or platforms need to fetch directly
 
-## SEO And Analytics
+## SEO
 
 The site includes:
 
@@ -101,9 +101,6 @@ The site includes:
 Set these GitHub Actions variables before deployment:
 
 - `PUBLIC_SITE_URL`: canonical site URL, `https://tadesseangaw.com`
-- `PUBLIC_GA_MEASUREMENT_ID`: Google Analytics measurement ID, for example `G-XXXXXXXXXX`
-
-Google Analytics is only loaded when `PUBLIC_GA_MEASUREMENT_ID` is present.
 
 ## Deployment
 

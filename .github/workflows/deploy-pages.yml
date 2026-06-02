@@ -27,7 +27,6 @@ jobs:
         run: npm run build
         env:
           PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL }}
-          PUBLIC_GA_MEASUREMENT_ID: ${{ vars.PUBLIC_GA_MEASUREMENT_ID }}
 
       - name: Deploy to Cloudflare Pages
         run: npx wrangler pages deploy dist --project-name "${{ vars.CLOUDFLARE_PAGES_PROJECT_NAME }}"
