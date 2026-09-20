@@ -117,6 +117,8 @@ const { Content } = await render(post);
 		font-weight: 700;
 		margin-top: 2rem;
 		margin-bottom: 0.75rem;
+		position: relative;
+		scroll-margin-top: 6rem;
 	}
 
 	.prose-engineering p {
@@ -136,8 +138,174 @@ const { Content } = await render(post);
 		text-decoration: none;
 	}
 
+	.prose-engineering .footnotes {
+		font-size: 0.95em;
+		margin-top: -0.5rem;
+	}
+
+	.prose-engineering .footnotes ol {
+		list-style: decimal;
+		margin: 0;
+		padding-left: 1.5rem;
+	}
+
+	.prose-engineering .footnotes li {
+		margin-bottom: 0.75rem;
+		padding-left: 0.25rem;
+	}
+
+	.prose-engineering .footnotes li::marker {
+		color: var(--color-on-surface-variant);
+		font-family: var(--font-label);
+		font-size: 0.9em;
+	}
+
+	.prose-engineering .footnotes p {
+		margin-bottom: 0;
+	}
+
 	.prose-engineering sup a {
 		font-family: var(--font-label);
 		text-decoration: none;
 	}
+
+	.prose-engineering .heading-copy-button {
+		align-items: center;
+		background: transparent;
+		border: 0;
+		color: var(--color-on-surface-variant);
+		cursor: pointer;
+		display: inline-flex;
+		height: 1.75rem;
+		justify-content: center;
+		left: -2.25rem;
+		opacity: 0;
+		padding: 0;
+		position: absolute;
+		top: 0.15rem;
+		transition:
+			color 150ms ease,
+			opacity 150ms ease;
+		width: 1.75rem;
+	}
+
+	.prose-engineering .heading-copy-button svg {
+		height: 1rem;
+		width: 1rem;
+	}
+
+	.prose-engineering h2:hover .heading-copy-button,
+	.prose-engineering h2:focus-within .heading-copy-button,
+	.prose-engineering h3:hover .heading-copy-button,
+	.prose-engineering h3:focus-within .heading-copy-button {
+		opacity: 1;
+	}
+
+	.prose-engineering .heading-copy-button:hover,
+	.prose-engineering .heading-copy-button:focus {
+		color: var(--color-primary);
+		opacity: 1;
+		outline: none;
+	}
+
+	.heading-copy-toast {
+		background: var(--color-on-surface);
+		bottom: 1.5rem;
+		color: var(--color-background);
+		font-family: var(--font-label);
+		font-size: 0.875rem;
+		left: 50%;
+		opacity: 0;
+		padding: 0.75rem 1rem;
+		pointer-events: none;
+		position: fixed;
+		transform: translate(-50%, 0.5rem);
+		transition:
+			opacity 160ms ease,
+			transform 160ms ease;
+		z-index: 50;
+	}
+
+	.heading-copy-toast.is-visible {
+		opacity: 1;
+		transform: translate(-50%, 0);
+	}
+
+	@media (max-width: 48rem) {
+		.prose-engineering .heading-copy-button {
+			left: -1.75rem;
+		}
+	}
 </style>
+
+<script>
+	const articleHeadings = document.querySelectorAll<HTMLHeadingElement>(
+		".prose-engineering h2[id], .prose-engineering h3[id]",
+	);
+	const linkIcon = `
+		<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+			<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+			<path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+		</svg>
+	`;
+	let toastTimeout: number | undefined;
+
+	function getToast() {
+		let toast = document.querySelector<HTMLDivElement>(".heading-copy-toast");
+		if (toast) return toast;
+
+		toast = document.createElement("div");
+		toast.className = "heading-copy-toast";
+		toast.setAttribute("role", "status");
+		toast.setAttribute("aria-live", "polite");
+		document.body.append(toast);
+		return toast;
+	}
+
+	function showCopyToast(message: string) {
+		const toast = getToast();
+		toast.textContent = message;
+		toast.classList.add("is-visible");
+		window.clearTimeout(toastTimeout);
+		toastTimeout = window.setTimeout(() => {
+			toast.classList.remove("is-visible");
+		}, 2200);
+	}
+
+	async function copyText(value: string) {
+		if (navigator.clipboard?.writeText) {
+			await navigator.clipboard.writeText(value);
+			return;
+		}
+
+		const input = document.createElement("textarea");
+		input.value = value;
+		input.setAttribute("readonly", "");
+		input.style.position = "fixed";
+		input.style.top = "-1000px";
+		document.body.append(input);
+		input.select();
+		document.execCommand("copy");
+		input.remove();
+	}
+
+	for (const heading of articleHeadings) {
+		if (heading.querySelector(".heading-copy-button")) continue;
+
+		const button = document.createElement("button");
+		button.className = "heading-copy-button";
+		button.type = "button";
+		button.innerHTML = linkIcon;
+		button.setAttribute("aria-label", `Copy link to ${heading.textContent ?? "section"}`);
+		button.addEventListener("click", async () => {
+			const url = `${window.location.origin}${window.location.pathname}#${heading.id}`;
+			try {
+				await copyText(url);
+				showCopyToast("Section link copied");
+			} catch {
+				showCopyToast("Could not copy link");
+			}
+		});
+		heading.prepend(button);
+	}
+</script>
